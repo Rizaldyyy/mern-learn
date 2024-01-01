@@ -42,14 +42,13 @@ const updateGoals = asyncHandler(async (req, res) => {
   }
 
   // check user
-  const user = await User.findById(req.user.id);
-  if(!user){
+  if(!req.user){
     res.status(401);
     throw new Error('User not found!');
   }
 
   // check if can update same user's goals
-  if(goal.user.toString() !== user.id){
+  if(goal.user.toString() !== req.user.id){
     res.status(401);
     throw new Error('This goal is not yours!');
   }
@@ -71,21 +70,20 @@ const deleteGoals = asyncHandler(async (req, res) => {
   }
 
    // check user
-   const user = await User.findById(req.user.id);
-   if(!user){
+   if(!req.user){
      res.status(401);
      throw new Error('User not found!');
    }
  
    // check if can update same user's goals
-   if(goal.user.toString() !== user.id){
+   if(goal.user.toString() !== req.user.id){
      res.status(401);
      throw new Error('This goal is not yours!');
    }
 
   await Goal.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({ message: `Delete Goals. ID: ${req.params.id}` });
+  res.status(200).json({ message: `Delete Goals. ID: ${req.params.id}`, data: { _id: req.params.id } });
 });
 
 module.exports = { getGoals, setGoals, updateGoals, deleteGoals };

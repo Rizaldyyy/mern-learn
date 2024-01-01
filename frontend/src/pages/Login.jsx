@@ -1,5 +1,11 @@
 import {useEffect, useState} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 import { FaSignInAlt } from 'react-icons/fa'
+import {reset, login} from '../features/auth/authSlice'
+
+import Spinner from '../components/Spinner'
 
 function Login() {
 
@@ -10,6 +16,22 @@ function Login() {
 
     const {email, password} =  formData
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const {user, isLoading, isSuccess, isError, message} = useSelector((state) => state.auth) 
+
+    useEffect(() => {
+        if(isError){
+            toast.error(message)
+        }
+        if(isSuccess || user){
+            navigate('/')
+        }
+
+        dispatch(reset())
+    }, [user, isLoading, isSuccess, isError, message])
+
     const handleChange = (e) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -19,7 +41,32 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let error = 0
+
+        if (!email.includes('@')) {
+            toast.error('Invalid email format')
+            error++
+        }
+        if (!password.trim()) {
+            toast.error('Password is required')
+            error++
+        }
+
+        if(error > 0){
+            return false;
+        }
+
+        const userData = {
+            email,
+            password
+        }
+
+        dispatch(login(userData))
     };
+
+    if(isLoading){
+        return (<Spinner />)
+    }
 
     return (
         <>
