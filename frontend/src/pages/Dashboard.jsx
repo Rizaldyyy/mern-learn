@@ -19,21 +19,18 @@ function Dashboard() {
   useEffect(() => {
     if(!user){
       navigate('/login')
-    }
-
-    if(user){
+    } else {
       dispatch(resetGoal())
       dispatch(getGoals())
     }
 
-    if(isGoalError){
-      toast.error(messageGoal)
+    if(messageGoal == "Not authorized"){
+      dispatch(reset())
+      dispatch(logout())
     }
 
-    if(isGoalError == "Not authorized"){
-      dispatch(logout())
-      dispatch(reset())
-      navigate('/login')
+    if(isGoalError){
+      toast.error(messageGoal)
     }
     
   }, [ user, isGoalError, messageGoal, dispatch ])
