@@ -34,9 +34,9 @@ if(process.env.NODE_ENV === 'prod'){
 
 app.use(errorHandler);
 
-if(port){
+// if(port){
   app.listen(port, () => console.log(`Server started on port ${port}`));
-}
+// }
 
-export default app
+// export default app
 

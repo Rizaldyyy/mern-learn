@@ -2,7 +2,8 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
 import {toast} from 'react-toastify'
-import { reset, getGoals } from '../features/goal/goalSlice'
+import { resetGoal, getGoals } from '../features/goal/goalSlice'
+import { logout, reset } from '../features/auth/authSlice'
 
 import Spinner from '../components/Spinner'
 import GoalItem from "../components/GoalItem"
@@ -20,17 +21,22 @@ function Dashboard() {
       navigate('/login')
     }
 
+    if(user){
+      dispatch(resetGoal())
+      dispatch(getGoals())
+    }
+
     if(isGoalError){
       toast.error(messageGoal)
     }
 
-    dispatch(getGoals())
-
-    return () => {
+    if(isGoalError == "Not authorized"){
+      dispatch(logout())
       dispatch(reset())
+      navigate('/login')
     }
-
-  }, [ user, navigate, isGoalError, messageGoal, dispatch])
+    
+  }, [ user, isGoalError, messageGoal, dispatch ])
 
   if(isGoalLoading){
     return (<Spinner />)
