@@ -17,14 +17,15 @@ function Dashboard() {
   const { goals, isGoalLoading, isGoalSuccess, isGoalError, messageGoal } = useSelector((state) => state.goal)
 
   useEffect(() => {
+    dispatch(resetGoal())
+
     if(!user){
       navigate('/login')
     } else {
-      dispatch(resetGoal())
       dispatch(getGoals())
     }
 
-    if(messageGoal == "Not authorized"){
+    if(messageGoal === "Not authorized"){
       dispatch(reset())
       dispatch(logout())
     }
@@ -46,7 +47,7 @@ function Dashboard() {
         <p>Start to add more goals!</p>
       </section>
       <GoalForm />
-      <section className="goals">
+      <section>
         {goals.data?.length > 0 ? (
           <div className='goals'>
             {goals.data.map((goal) => (

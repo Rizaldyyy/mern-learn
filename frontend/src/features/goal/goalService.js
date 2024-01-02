@@ -20,7 +20,8 @@ const setGoals = async (token, goalData) => {
   return response.data
 }
 
-const updateGoal = async (id, token, goalData) => {
+const updateGoal = async (goalData ,token) => {
+  const { id } = goalData
   const response = await axios.put(`${APP_URL}/${id}`, goalData, headerToken(token))
   return response.data
 }

@@ -88,24 +88,72 @@ h3 {
 
 .goals {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
 .goal {
   background-color: #f4f4f4;
   margin: 10px 0;
-  padding: 20px 0 10px;
   position: relative;
+  min-height: 310px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 0;
 }
 
-.goal .close {
+.goal-complete {
+  background-color: #2ac35e;
+  color: white;
+}
+
+.goal-complete .complete, .goal-complete .edit, .goal-complete .close {
+  color: white;
+  font-size: 20px !important;
+}
+
+.goal .complete, .goal .edit, .goal .close {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  font-size: 15px;
   cursor: pointer;
   border: none;
   background: none;
+  transition: all 0.2s;
+}
+
+.goal .edit {
+  top: 10px;
+  right: 40px;
+}
+
+.goal .close {
+  top: 10px;
+  right: 15px;
+}
+
+.goal .complete {
+  top: 10px;
+  left: 15px;
+}
+
+.goal .complete:hover, .goal .edit:hover, .goal .close:hover {
+  font-size: 20px;
+}
+
+textarea {
+  padding: 10px;
+  resize: none;
+}
+
+.goal .date {
+  position: absolute;
+  bottom: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: center;
 }
 
 .form,

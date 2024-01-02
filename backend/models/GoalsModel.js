@@ -11,6 +11,12 @@ const goalSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add text here']
     },
+    status: {
+      type: Number,
+      min: 0,
+      max: 1,
+      default: 0,
+    },
   },{
     timestamps: true, 
   }
